@@ -1,0 +1,63 @@
+@import "tailwindcss";
+
+@theme {
+  /* Focus Realm Education — blue & white system */
+  --color-brand-50: #f0f5fe;
+  --color-brand-100: #dde8fc;
+  --color-brand-200: #bcd1f8;
+  --color-brand-300: #8db2f2;
+  --color-brand-400: #5a8dea;
+  --color-brand-500: #3b78e3;
+  --color-brand-600: #2d6cdf;
+  --color-brand-700: #2457bc;
+  --color-brand-800: #1f4795;
+  --color-brand-900: #1c3b74;
+
+  --color-ink: #0e1a2f;
+  --color-ink-2: #3d4a63;
+  --color-muted: #66728a;
+  --color-line: #e2e8f2;
+  --color-paper: #f6f8fc;
+
+  --font-sans: "Inter Variable", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    background: #ffffff;
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-feature-settings: "cv11", "ss01";
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  ::selection {
+    background: var(--color-brand-200);
+    color: var(--color-ink);
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-brand-600);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+}
+
+@utility tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    transition: none !important;
+    animation: none !important;
+  }
+}
