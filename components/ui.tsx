@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { DrawLine, Reveal } from "./motion";
 
 export function Container({ children, className = "" }: { children: ReactNode; className?: string }) {
   return <div className={`mx-auto w-full max-w-[1200px] px-5 sm:px-8 ${className}`}>{children}</div>;
@@ -55,18 +56,25 @@ export function SectionHeader({
   intro?: ReactNode;
 }) {
   return (
-    <header className="border-t border-line pt-6">
-      <p className="flex items-center gap-3 text-xs font-medium uppercase tracking-[0.14em] text-muted">
-        <span className="tabular text-brand-600">{index}</span>
-        <span className="h-px w-6 bg-line" aria-hidden="true" />
-        {label}
-      </p>
+    <header className="relative pt-6">
+      <DrawLine className="absolute inset-x-0 top-0 h-px bg-line" />
+      <Reveal y={12}>
+        <p className="flex items-center gap-3 text-xs font-medium uppercase tracking-[0.14em] text-muted">
+          <span className="tabular text-brand-600">{index}</span>
+          <span className="h-px w-6 bg-brand-300" aria-hidden="true" />
+          {label}
+        </p>
+      </Reveal>
       <div className="mt-8 grid gap-6 lg:grid-cols-12 lg:gap-12">
-        <h2 className="text-[clamp(2rem,4.4vw,3.5rem)] font-semibold leading-[1.03] tracking-[-0.032em] text-ink lg:col-span-7">
-          {title}
-        </h2>
+        <Reveal className="lg:col-span-7" delay={0.05}>
+          <h2 className="text-[clamp(2rem,4.4vw,3.5rem)] font-semibold leading-[1.03] tracking-[-0.032em] text-ink">
+            {title}
+          </h2>
+        </Reveal>
         {intro && (
-          <p className="text-[17px] leading-relaxed text-ink-2 lg:col-span-5 lg:self-end lg:pb-1.5">{intro}</p>
+          <Reveal className="lg:col-span-5 lg:self-end lg:pb-1.5" delay={0.15}>
+            <p className="text-[17px] leading-relaxed text-ink-2">{intro}</p>
+          </Reveal>
         )}
       </div>
     </header>

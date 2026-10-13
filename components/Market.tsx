@@ -1,4 +1,5 @@
 import { MarketDonut } from "./MarketDonut";
+import { CountUp, Reveal, Stagger, StaggerItem } from "./motion";
 import { Container, NoteRef, SectionHeader } from "./ui";
 
 const GAPS = [
@@ -27,11 +28,11 @@ export function Market() {
           intro="Spending on learning platforms is accelerating worldwide and in India, yet the tools on offer haven't solved the engagement problem."
         />
 
-        <div className="mt-14 grid gap-px overflow-hidden rounded-2xl border border-line bg-line md:grid-cols-2">
+        <Reveal className="mt-14"><div className="grid gap-px overflow-hidden rounded-2xl border border-line bg-line md:grid-cols-2">
           <div className="bg-white p-7 lg:p-9">
             <p className="text-[13px] text-muted">Global LMS market by 2030</p>
             <p className="tabular mt-2 text-[clamp(3rem,6vw,4.75rem)] font-semibold leading-none tracking-[-0.045em] text-brand-600">
-              $47.47B
+              <CountUp to={47.47} decimals={2} prefix="$" suffix="B" duration={2} />
               <NoteRef n={5} />
             </p>
             <p className="mt-4 inline-flex items-center gap-2 rounded-full bg-brand-50 px-3 py-1 text-[13px] font-medium text-brand-700">
@@ -44,12 +45,12 @@ export function Market() {
           <div className="bg-white p-7 lg:p-9">
             <p className="text-[13px] text-muted">India&rsquo;s EdTech sector, projected</p>
             <p className="tabular mt-2 text-[clamp(3rem,6vw,4.75rem)] font-semibold leading-none tracking-[-0.045em] text-ink">
-              $30B
+              <CountUp to={30} prefix="$" suffix="B" duration={1.8} />
               <NoteRef n={6} />
             </p>
             <p className="mt-4 text-[14px] text-ink-2">One of the fastest-growing education markets in the world.</p>
           </div>
-        </div>
+        </div></Reveal>
 
         <div className="mt-16 grid gap-14 lg:grid-cols-12 lg:gap-12">
           <div className="lg:col-span-7">
@@ -57,17 +58,17 @@ export function Market() {
           </div>
           <div className="lg:col-span-5">
             <p className="text-xs font-medium uppercase tracking-[0.14em] text-muted">Three gaps we close</p>
-            <ol className="mt-4 space-y-px">
+            <Stagger as="ol" className="mt-4 space-y-px" stagger={0.14}>
               {GAPS.map((g, i) => (
-                <li key={g.title} className="grid grid-cols-[2.25rem_1fr] border-t border-line py-5">
-                  <span className="tabular text-[14px] font-medium text-brand-600">0{i + 1}</span>
+                <StaggerItem as="li" key={g.title} className="group grid grid-cols-[2.25rem_1fr] border-t border-line py-5">
+                  <span className="tabular text-[14px] font-medium text-brand-600 transition-transform duration-300 group-hover:translate-x-1">0{i + 1}</span>
                   <div>
                     <h3 className="text-[18px] font-semibold tracking-[-0.015em]">{g.title}</h3>
                     <p className="mt-1.5 text-[15px] leading-relaxed text-ink-2">{g.body}</p>
                   </div>
-                </li>
+                </StaggerItem>
               ))}
-            </ol>
+            </Stagger>
           </div>
         </div>
       </Container>

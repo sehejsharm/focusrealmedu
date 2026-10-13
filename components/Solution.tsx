@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { DrawLine, Reveal, Stagger, StaggerItem } from "./motion";
 import { Container, Monogram, SectionHeader } from "./ui";
 
 const icon = (d: ReactNode) => (
@@ -71,41 +72,56 @@ export function Solution() {
         />
 
         {/* reality → potential bridge */}
-        <div className="mt-14 rounded-2xl border border-line bg-white p-6 sm:p-8">
-          <div className="grid items-center gap-6 sm:grid-cols-[1fr_auto_1fr]">
-            <div>
-              <p className="text-xs font-medium uppercase tracking-[0.14em] text-muted">Boring reality</p>
-              <p className="mt-2 text-[15px] leading-relaxed text-muted">
-                Static slides, one pace for all, report cards once a term, boards used as projectors.
-              </p>
-            </div>
-            <div className="flex items-center gap-3 sm:px-4" aria-hidden="true">
-              <span className="h-px flex-1 bg-gradient-to-r from-line to-brand-300 sm:w-16 sm:flex-none" />
-              <Monogram className="h-10 w-10" />
-              <span className="h-px flex-1 bg-brand-600 sm:w-16 sm:flex-none" />
-            </div>
-            <div className="sm:text-right">
-              <p className="text-xs font-medium uppercase tracking-[0.14em] text-brand-600">Fun potential</p>
-              <p className="mt-2 text-[15px] leading-relaxed text-ink">
-                Live quests, adaptive paths, visible progress, and boards that make every student a participant.
-              </p>
+        <Reveal className="mt-14">
+          <div className="relative overflow-hidden rounded-2xl border border-line bg-white p-6 sm:p-8">
+            <div className="grid items-center gap-6 sm:grid-cols-[1fr_auto_1fr]">
+              <div>
+                <p className="text-xs font-medium uppercase tracking-[0.14em] text-muted">Boring reality</p>
+                <p className="mt-2 text-[15px] leading-relaxed text-muted">
+                  Static slides, one pace for all, report cards once a term, boards used as projectors.
+                </p>
+              </div>
+              <BridgeConnector />
+              <div className="sm:text-right">
+                <p className="text-xs font-medium uppercase tracking-[0.14em] text-brand-600">Fun potential</p>
+                <p className="mt-2 text-[15px] leading-relaxed text-ink">
+                  Live quests, adaptive paths, visible progress, and boards that make every student a participant.
+                </p>
+              </div>
             </div>
           </div>
-        </div>
+        </Reveal>
 
-        <ol className="mt-12 grid gap-px overflow-hidden rounded-2xl border border-line bg-line sm:grid-cols-2 lg:grid-cols-5">
+        <Stagger as="ol" className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-5" stagger={0.09}>
           {PILLARS.map((p, i) => (
-            <li key={p.title} className="flex flex-col bg-white p-6">
-              <div className="flex items-center justify-between">
-                <span className="text-brand-600">{p.icon}</span>
-                <span className="tabular text-[13px] text-muted">0{i + 1}</span>
+            <StaggerItem as="li" key={p.title}>
+              <div className="group flex h-full flex-col rounded-2xl border border-line bg-white p-6 transition-[transform,box-shadow,border-color] duration-500 hover:-translate-y-1.5 hover:border-brand-200 hover:shadow-[0_28px_50px_-30px_rgba(28,59,116,0.5)]">
+                <div className="flex items-center justify-between">
+                  <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-brand-50 text-brand-600 transition-colors duration-300 group-hover:bg-brand-600 group-hover:text-white">
+                    {p.icon}
+                  </span>
+                  <span className="tabular text-[13px] text-muted">0{i + 1}</span>
+                </div>
+                <h3 className="mt-7 text-[18px] font-semibold leading-snug tracking-[-0.015em]">{p.title}</h3>
+                <p className="mt-2 text-[15px] leading-relaxed text-ink-2">{p.body}</p>
               </div>
-              <h3 className="mt-8 text-[18px] font-semibold leading-snug tracking-[-0.015em]">{p.title}</h3>
-              <p className="mt-2 text-[15px] leading-relaxed text-ink-2">{p.body}</p>
-            </li>
+            </StaggerItem>
           ))}
-        </ol>
+        </Stagger>
       </Container>
     </section>
+  );
+}
+
+function BridgeConnector() {
+  return (
+    <div className="relative flex items-center gap-3 sm:px-4" aria-hidden="true">
+      <DrawLine className="h-px flex-1 bg-gradient-to-r from-line to-brand-300 sm:w-16 sm:flex-none" />
+      <span className="relative">
+        <span className="absolute inset-0 rounded-[10px] bg-brand-400/40 animate-ping" />
+        <Monogram className="relative h-10 w-10" />
+      </span>
+      <DrawLine className="h-px flex-1 bg-brand-600 sm:w-16 sm:flex-none" />
+    </div>
   );
 }

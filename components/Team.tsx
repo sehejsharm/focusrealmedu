@@ -1,6 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
-import { Container, SectionHeader } from "./ui";
+import { Stagger, StaggerItem } from "./motion";
+import { Container, Monogram, SectionHeader } from "./ui";
 
 const TEAM = [
   { name: "Sehej Sharma", role: "Co-Founder & CEO", slug: "sehej-sharma" },
@@ -8,7 +9,7 @@ const TEAM = [
   { name: "Aditya Mishra", role: "Co-Founder & CTO", slug: "aditya-mishra" },
 ];
 
-/** Drop a photo at public/team/<slug>.(jpg|png|webp) and it replaces the initials at build time. */
+/** Photos live at public/team/<slug>.(jpg|png|webp); initials are used if one is missing. */
 function findPhoto(slug: string): string | null {
   for (const ext of ["jpg", "jpeg", "png", "webp"]) {
     if (fs.existsSync(path.join(process.cwd(), "public", "team", `${slug}.${ext}`))) {
@@ -34,32 +35,47 @@ export function Team() {
           title="The people building Focus Realm."
           intro="A founding team combining operations, product and engineering, focused on making classrooms work better for students and educators alike."
         />
-        <ul className="mt-14 grid gap-px overflow-hidden rounded-2xl border border-line bg-line sm:grid-cols-3">
+        <Stagger as="ul" className="mt-14 grid gap-5 sm:grid-cols-3" stagger={0.14}>
           {TEAM.map((m) => {
             const photo = findPhoto(m.slug);
             return (
-              <li key={m.slug} className="flex items-center gap-5 bg-white p-6 sm:flex-col sm:items-start sm:p-8">
-                <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-full bg-brand-50 ring-1 ring-brand-200 sm:h-28 sm:w-28">
-                  {photo ? (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img src={photo} alt={m.name} className="h-full w-full object-cover" loading="lazy" />
-                  ) : (
+              <StaggerItem as="li" key={m.slug}>
+                <figure className="group">
+                  <div className="relative aspect-square overflow-hidden sm:aspect-[4/5] rounded-2xl bg-brand-50 ring-1 ring-line">
+                    {photo ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img
+                        src={photo}
+                        alt={`${m.name}, ${m.role}`}
+                        loading="lazy"
+                        className="h-full w-full object-cover object-[50%_25%] transition-[filter,transform] [@media(hover:hover)]:grayscale-[0.85] duration-700 ease-out group-hover:scale-[1.04] group-hover:grayscale-0"
+                      />
+                    ) : (
+                      <span
+                        className="flex h-full w-full items-center justify-center text-[48px] font-semibold tracking-[-0.03em] text-brand-700"
+                        aria-hidden="true"
+                      >
+                        {initials(m.name)}
+                      </span>
+                    )}
+                    {/* blue wash that lifts on hover */}
                     <span
-                      className="flex h-full w-full items-center justify-center text-[22px] font-semibold tracking-[-0.02em] text-brand-700 sm:text-[28px]"
                       aria-hidden="true"
-                    >
-                      {initials(m.name)}
+                      className="pointer-events-none absolute inset-0 bg-gradient-to-t from-brand-900/70 via-brand-700/10 to-transparent opacity-80 transition-opacity duration-700 group-hover:opacity-50"
+                    />
+                    <span className="absolute left-4 top-4 opacity-0 transition-opacity duration-500 group-hover:opacity-100">
+                      <Monogram className="h-7 w-7" tone="white" />
                     </span>
-                  )}
-                </div>
-                <div>
-                  <p className="text-[19px] font-semibold tracking-[-0.02em]">{m.name}</p>
-                  <p className="mt-1 text-[15px] text-ink-2">{m.role}</p>
-                </div>
-              </li>
+                    <figcaption className="absolute inset-x-0 bottom-0 p-5 text-white">
+                      <p className="text-[20px] font-semibold tracking-[-0.02em]">{m.name}</p>
+                      <p className="mt-0.5 text-[14px] text-brand-100">{m.role}</p>
+                    </figcaption>
+                  </div>
+                </figure>
+              </StaggerItem>
             );
           })}
-        </ul>
+        </Stagger>
       </Container>
     </section>
   );

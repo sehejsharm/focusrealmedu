@@ -1,5 +1,5 @@
 import { NAV_LINKS, NOTES } from "@/lib/content";
-import { Container, Wordmark } from "./ui";
+import { Container, Monogram, Wordmark } from "./ui";
 
 // TODO: replace "#" with the real profile URLs.
 const SOCIALS = [
@@ -30,13 +30,16 @@ export function Footer() {
             <p className="mt-4 max-w-xs text-[14px] leading-relaxed text-muted">
               The AI-powered, gamified LMS built for Indian classrooms.
             </p>
+            <p className="mt-3 inline-flex items-center gap-2 rounded-full border border-brand-200 bg-brand-50 px-3 py-1 text-[13px] font-medium text-brand-700">
+              <Monogram className="h-4 w-4" />A Focus Realm company
+            </p>
             <ul className="mt-6 flex gap-2">
               {SOCIALS.map((s) => (
                 <li key={s.label}>
                   <a
                     href={s.href}
                     aria-label={s.label}
-                    className="flex h-9 w-9 items-center justify-center rounded-full border border-line text-ink-2 transition-colors hover:border-brand-300 hover:text-brand-600"
+                    className="flex h-9 w-9 items-center justify-center rounded-full border border-line text-ink-2 transition-all duration-300 hover:-translate-y-0.5 hover:border-brand-600 hover:bg-brand-600 hover:text-white"
                   >
                     <svg viewBox="0 0 24 24" className="h-4 w-4" fill="currentColor" aria-hidden="true">
                       <path d={s.path} />
@@ -76,8 +79,13 @@ export function Footer() {
         </div>
 
         <div className="mt-12 flex flex-col gap-2 border-t border-line pt-6 text-[13px] text-muted sm:flex-row sm:justify-between">
-          <p>© {new Date().getFullYear()} Focus Realm. All rights reserved.</p>
-          <p>focusrealm.org</p>
+          <p>
+            © {new Date().getFullYear()} Focus Realm. All rights reserved. Focus Realm Education is a Focus Realm
+            company.
+          </p>
+          <a href="https://focusrealm.org" className="hover:text-brand-600">
+            focusrealm.org
+          </a>
         </div>
       </Container>
     </footer>
